@@ -22,8 +22,8 @@ export default function Game() {
     }, [])
 
     return (
-        <main className="flex justify-center">
-            <div className="mt-10 h-180 w-90 ring-10 ring-black rounded-4xl flex flex-col flex-nowrap">
+        <main className="flex justify-between items-center px-40">
+            <div className="mt-4 h-180 w-90 ring-10 ring-black rounded-4xl flex flex-col flex-nowrap">
                 <nav className="flex flex-col flex-nowrap basis-1/6 rounded-t-4xl bg-[#f8f8f8] dark:bg-[#1a1a1a] border-b-2 border-b-[#f0f0f0] dark:border-b-[#161618]">
                     <div className="flex flex-row flex-nowrap justify-between">
                         <span className="text-black dark:text-white text-center text-[16px] font-[550] font-nunito mt-2 pl-10">
@@ -51,10 +51,9 @@ export default function Game() {
                 <div className="basis-full rounded-b-4xl bg-white dark:bg-black">
                     <main className="bg-white dark:bg-black flex flex-col flex-nowrap w-full h-[96%] rounded-b-full">
                         <div className="flex flex-col flex-nowrap w-full h-[92%] px-2 py-1 gap-y-1">
-                            <Message content="hey" who="user" />
-                            <Message content="hi" who="other" />
-                            <Message content="how u doing" who="other" />
-                            <Message content="i'm doing fine" who="user" />
+                            <Message content="Lorem ipsum dolor sit amet, consectetur adipiscing elit." who="other" />
+                            <Message content="Nunc pretium sapien a ligula." who="other" />
+                            <Message content="option 2" who="user" />
                         </div>
                         <div className="flex flex-row flex-nowrap items-center justify-around w-full h-[8%]">
                             <div className="bg-[#f9f9f9] dark:bg-[#161618] rounded-full size-8 p-2">
@@ -74,6 +73,23 @@ export default function Game() {
                     <div className="h-[4%] rounded-b-4xl flex flex-row flex-nowrap justify-center">
                         <div className="w-40 h-1.5 bg-black dark:bg-white rounded-full mt-3"></div>
                     </div>
+                </div>
+            </div>
+            <div className="w-200 h-80 text-center flex flex-col gap-y-8">
+                <h1 className="font-semibold text-3xl">Try having a mock conversation to test your digital citizenship knowledge!</h1>
+                <div className="w-full h-full ring-8 ring-black rounded-xl flex flex-col text-center p-8">
+                    <h2 className="text-2xl font-semibold">
+                        Choose the best response to the user's message.
+                    </h2>
+                    <button className="mt-4 bg-[#017cfe] text-white px-4 py-2 rounded-lg hover:bg-[#005bb5] transition-colors">
+                        option 1
+                    </button>
+                    <button className="mt-4 bg-[#017cfe] text-white px-4 py-2 rounded-lg hover:bg-[#005bb5] transition-colors">
+                        option 2
+                    </button>
+                    <button className="mt-4 bg-[#017cfe] text-white px-4 py-2 rounded-lg hover:bg-[#005bb5] transition-colors">
+                        option 3
+                    </button>
                 </div>
             </div>
         </main>
