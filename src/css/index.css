@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme {
+    --color-coal: oklch(0.18 0 0);
+    --color-dark-gray: oklch(0.23 0 0);
+    --font-nunito: 'Nunito'
+    --default-font-family: 'Source Sans 3', sans-serif;
+    --font-title: 'Outfit';
+}
