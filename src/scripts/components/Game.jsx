@@ -78,8 +78,10 @@ export default function Game() {
     }, [messages])
 
     return (
-        <main className="flex justify-between items-center px-40">
-            <div className="mt-4 h-180 w-90 ring-10 ring-black rounded-4xl flex flex-col flex-nowrap">
+        <main className="flex flex-col items-center w-full">
+            <h1 className="font-semibold text-3xl my-4 text-center max-w-[min(90vw,1200px)]">Try having a mock conversation to test your digital citizenship knowledge!</h1>
+            <div className="w-full flex md:flex-row flex-col justify-between items-center 2xl:px-60 xl:px-40 lg:px-20 px-10">
+                <div className="mt-4 h-180 w-90 ring-10 ring-black rounded-4xl flex flex-col flex-nowrap">
                 <nav className="flex flex-col flex-nowrap basis-1/6 rounded-t-4xl bg-[#f8f8f8] dark:bg-[#1a1a1a] border-b-2 border-b-[#f0f0f0] dark:border-b-[#161618]">
                     <div className="flex flex-row flex-nowrap justify-between">
                         <span className="text-black dark:text-white text-center text-[16px] font-[550] font-nunito mt-2 pl-10">
@@ -131,8 +133,7 @@ export default function Game() {
                     </div>
                 </div>
             </div>
-            <div className="w-200 h-80 text-center flex flex-col gap-y-8">
-                <h1 className="font-semibold text-3xl">Try having a mock conversation to test your digital citizenship knowledge!</h1>
+            <div className="w-80 lg:w-140 my-10 lg:my-0 h-auto text-center flex flex-col gap-y-8">
                 <div className="w-full h-full ring-8 ring-black rounded-xl flex flex-col text-center p-8">
                     <h2 className="text-2xl font-semibold">
                         Choose the best response to the user's message.
@@ -162,6 +163,7 @@ export default function Game() {
                         <p className="text-lg mt-4">Wait for the message to finish.</p>
                     )}
                 </div>
+            </div>
             </div>
         </main>
     )

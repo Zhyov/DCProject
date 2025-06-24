@@ -10,8 +10,8 @@ export default function Info() {
                     What is a good digital citizen?
                 </h1>
             </div>
-            <div className="flex flex-col justify-center items-center gap-y-12 mt-4">
-                <p className="text-2xl max-w-[min(90vw,1200px)]">
+            <div className="flex flex-col justify-center items-center gap-y-12 mt-4 *:max-w-[min(90vw,1200px)]">
+                <p className="text-2xl">
                     Digital citizenship refers to how we behave, interact, and contribute in the digital world. This includes how we use technology, share information, interact with others, and respect digital spaces and communities.
                     <br />
                     <br />
@@ -20,7 +20,7 @@ export default function Info() {
                 <h2 className="text-4xl font-bold">
                     Key Areas of Digital Citizenship
                 </h2>
-                <div className="grid grid-cols-2 gap-4 max-w-[min(90vw,1200px)]">
+                <div className="grid grid-cols-2 gap-4">
                     <Card
                         title="Digital Literacy"
                         content="Understanding how technology works and how to find reliable information online."
@@ -55,7 +55,7 @@ export default function Info() {
                 <h2 className="text-4xl font-bold">
                     A moment of reflection...
                 </h2>
-                <p className="text-2xl max-w-[min(90vw,1200px)]">
+                <p className="text-2xl">
                     There is no single definition of a "good digital citizen."
                     <br />
                     But after learning about digital literacy, safety, etiquette, rights, and footprint:
