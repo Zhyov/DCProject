@@ -1,7 +1,17 @@
-import { useState, useEffect } from "react"
+import { useRef, useState, useEffect } from "react"
+import data from "../data"
 import Message from "./Message"
 
 export default function Game() {
+
+    const scenarios = data
+    const [currentStep, setCurrentStep] = useState(0)
+    const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
+    const [score, setScore] = useState(0)
+    const [messages, setMessages] = useState([
+        { content: scenarios[0].messages[0], who: "other" }
+    ])
+    const [showOptions, setShowOptions] = useState(false);
 
     const [time, setTime] = useState(() => {
         const now = new Date()
@@ -21,6 +31,52 @@ export default function Game() {
         return () => clearInterval(interval)
     }, [])
 
+    useEffect(() => {
+        if (currentMessageIndex + 1 < scenarios[currentStep].messages.length) {
+            const timeout = setTimeout(() => {
+                setMessages(prev => [
+                    ...prev,
+                    { content: scenarios[currentStep].messages[currentMessageIndex + 1], who: "other" }
+                ])
+                setCurrentMessageIndex(prev => prev + 1)
+            }, 1000)
+
+            return () => clearTimeout(timeout)
+        } else {
+            setShowOptions(true)
+        }
+    }, [currentMessageIndex, currentStep])
+
+    function handleAnswer(option) {
+        setMessages(prev => [
+            ...prev,
+            { content: option.text, who: "user" }
+        ]);
+
+        setScore(prev => prev + option.score)
+        setShowOptions(false)
+        
+        if (currentStep + 1 < scenarios.length) {
+            const nextStep = currentStep + 1
+        
+            setTimeout(() => {
+                setMessages(prev => [
+                    ...prev,
+                    { content: scenarios[nextStep].messages[0], who: "other" }
+                ])
+                setCurrentStep(nextStep)
+                setCurrentMessageIndex(0)
+            }, 1000)
+        }
+    }
+
+    const chatRef = useRef(null)
+    useEffect(() => {
+        if (chatRef.current) {
+            chatRef.current.scrollTop = chatRef.current.scrollHeight
+        }
+    }, [messages])
+
     return (
         <main className="flex justify-between items-center px-40">
             <div className="mt-4 h-180 w-90 ring-10 ring-black rounded-4xl flex flex-col flex-nowrap">
@@ -31,8 +87,8 @@ export default function Game() {
                         </span>
                         <div className="h-8 w-30 mt-1 bg-black rounded-full"></div>
                         <div className="flex flex-row flex-nowrap gap-x-2 justify-center pt-1 mt-1.5 pr-10">
-                            <img className="size-5 dark:invert" alt="soy algo" src="https://www.svgrepo.com/show/779/wifi.svg" />
-                            <img className="size-5 dark:invert" alt="soy algo2" src="https://www.svgrepo.com/show/67096/phone-battery-with-full-charge-and-a-bolt-symbol.svg" />
+                            <img className="size-5 dark:invert" alt="wifi logo" src="https://www.svgrepo.com/show/779/wifi.svg" />
+                            <img className="size-5 dark:invert" alt="battery logo" src="https://www.svgrepo.com/show/67096/phone-battery-with-full-charge-and-a-bolt-symbol.svg" />
                         </div>
                     </div>
                     <div className="flex flex-row flex-nowrap justify-between px-2 mt-2">
@@ -40,8 +96,8 @@ export default function Game() {
                             <path d="M56 6L6 56L56 106" stroke="#438cfc" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         <div className="flex flex-col flex-nowrap items-center">
-                            <img className="size-8 rounded-full" alt="icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSj7nmvPuHivliG0y_2glZDqMW3aZ4pbd8pzw&s" />
-                            <span className="text-sm text-black dark:text-white">name</span>
+                            <img className="size-8 rounded-full" alt="icon" src="./assets/pfp.jpg" />
+                            <span className="text-sm text-black dark:text-white">Mike</span>
                         </div>
                         <svg className="size-9 mt-3" width="80" height="120" viewBox="0 0 80 120" fill="none">
                             <path d="M72.9,14.4L56,25.3V22c0-4.4-3.6-8-8-8H8c-4.4,0-8,3.6-8,8v32c0,4.4,3.6,8,8,8h40c4.4,0,8-3.6,8-8v-3.3   l16.9,10.9c1.9,1,3.1-0.7,3.1-1.7V16C76,15,74.9,13.2,72.9,14.4z M52,54c0,2.2-1.8,4-4,4H8c-2.2,0-4-1.8-4-4V22c0-2.2,1.8-4,4-4h40   c2.2,0,4,1.8,4,4V54z M72,56.3L56,46V30l16-10.3V56.3z" stroke="#438cfc" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
@@ -50,10 +106,10 @@ export default function Game() {
                 </nav>
                 <div className="basis-full rounded-b-4xl bg-white dark:bg-black">
                     <main className="bg-white dark:bg-black flex flex-col flex-nowrap w-full h-[96%] rounded-b-full">
-                        <div className="flex flex-col flex-nowrap w-full h-[92%] px-2 py-1 gap-y-1">
-                            <Message content="Lorem ipsum dolor sit amet, consectetur adipiscing elit." who="other" />
-                            <Message content="Nunc pretium sapien a ligula." who="other" />
-                            <Message content="option 2" who="user" />
+                        <div ref={chatRef} className="flex flex-col w-full h-[540px] px-2 py-1 gap-y-1 overflow-y-auto scrollbar-hidden">
+                            {messages.map((msg, idx) => (
+                                <Message key={idx} content={msg.content} who={msg.who} />
+                            ))}
                         </div>
                         <div className="flex flex-row flex-nowrap items-center justify-around w-full h-[8%]">
                             <div className="bg-[#f9f9f9] dark:bg-[#161618] rounded-full size-8 p-2">
@@ -81,15 +137,30 @@ export default function Game() {
                     <h2 className="text-2xl font-semibold">
                         Choose the best response to the user's message.
                     </h2>
-                    <button className="mt-4 bg-[#017cfe] text-white px-4 py-2 rounded-lg hover:bg-[#005bb5] transition-colors">
-                        option 1
-                    </button>
-                    <button className="mt-4 bg-[#017cfe] text-white px-4 py-2 rounded-lg hover:bg-[#005bb5] transition-colors">
-                        option 2
-                    </button>
-                    <button className="mt-4 bg-[#017cfe] text-white px-4 py-2 rounded-lg hover:bg-[#005bb5] transition-colors">
-                        option 3
-                    </button>
+                    {showOptions ? (
+                        scenarios[currentStep].options.map((option, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => handleAnswer(option)}
+                                className="mt-4 bg-gray-300 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover:cursor-pointer px-4 py-2 rounded-lg transition-colors"
+                            >
+                            {option.text}
+                            </button>
+                        ))
+                    ) : currentStep >= scenarios.length - 1 && !showOptions ? (
+                        <div className="mt-4 text-xl font-semibold">
+                            Final Score: {score} / 10
+                            <p className="mt-2">
+                            {score <= 5
+                                ? "You might want to review digital citizenship."
+                                : score <= 7
+                                ? "You're on the right track!"
+                                : "Excellent work! You're a great digital citizen!"}
+                            </p>
+                        </div>
+                    ) : (
+                        <p className="text-lg mt-4">Wait for the message to finish.</p>
+                    )}
                 </div>
             </div>
         </main>

@@ -67,7 +67,7 @@ export default function Info() {
                     <br />
                     If you feel like you know the answer, you can test your knowledge by taking the test below!
                 </p>
-                <Link to="/DCProject/test" className="mb-10 bg-gray-800 text-white px-8 py-4 text-xl font-semibold rounded-lg hover:bg-gray-700 transition-colors">
+                <Link to="/DCProject/test" className="mb-10 bg-gray-300 dark:bg-gray-800 px-8 py-4 text-xl font-semibold rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                     Take the test
                 </Link>
             </div>

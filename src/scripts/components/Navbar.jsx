@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 export default function Navbar() {
     return (
-        <nav className="pl-8 pr-8 bg-white dark:bg-coal w-100% h-24 flex flex-nowrap flex-row justify-between">
+        <nav className="pl-8 pr-8 bg-white dark:bg-coal w-100% h-20 flex flex-nowrap flex-row justify-between">
             <div className="flex flex-nowrap flex-row items-center basis-auto gap-x-2">
                 <img className="size-8 invert-50" alt="here will be logo" src="https://www.svgrepo.com/show/22031/home-icon-silhouette.svg" />
                 <Link to="/DCProject/">

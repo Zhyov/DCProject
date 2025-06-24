@@ -9,3 +9,12 @@
     --default-font-family: 'Source Sans 3', sans-serif;
     --font-title: 'Outfit';
 }
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
