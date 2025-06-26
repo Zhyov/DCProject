@@ -8,10 +8,12 @@ export default function Game() {
     const [currentStep, setCurrentStep] = useState(0)
     const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
     const [score, setScore] = useState(0)
+    const [currentScore, setCurrentScore] = useState(0)
     const [messages, setMessages] = useState([
         { content: scenarios[0].messages[0], who: "other" }
     ])
-    const [showOptions, setShowOptions] = useState(false);
+    const [showOptions, setShowOptions] = useState(false)
+    const [showFeedback, setShowFeedback] = useState(false)
 
     const [time, setTime] = useState(() => {
         const now = new Date()
@@ -39,7 +41,7 @@ export default function Game() {
                     { content: scenarios[currentStep].messages[currentMessageIndex + 1], who: "other" }
                 ])
                 setCurrentMessageIndex(prev => prev + 1)
-            }, 1000)
+            }, 2000)
 
             return () => clearTimeout(timeout)
         } else {
@@ -51,22 +53,28 @@ export default function Game() {
         setMessages(prev => [
             ...prev,
             { content: option.text, who: "user" }
-        ]);
-
+        ])
+        
+        setCurrentScore(option.score)
         setScore(prev => prev + option.score)
         setShowOptions(false)
+        setShowFeedback(true)
         
         if (currentStep + 1 < scenarios.length) {
             const nextStep = currentStep + 1
         
             setTimeout(() => {
-                setMessages(prev => [
-                    ...prev,
+                setMessages([
                     { content: scenarios[nextStep].messages[0], who: "other" }
                 ])
                 setCurrentStep(nextStep)
+                setShowFeedback(false)
                 setCurrentMessageIndex(0)
-            }, 1000)
+            }, 3000)
+        } else {
+            setTimeout(() => {
+                setShowFeedback(false)
+            }, 2000)
         }
     }
 
@@ -76,6 +84,16 @@ export default function Game() {
             chatRef.current.scrollTop = chatRef.current.scrollHeight
         }
     }, [messages])
+
+    const scenarioElements = scenarios[currentStep].options.map((option, idx) => (
+        <button
+            key={idx}
+            onClick={() => handleAnswer(option)}
+            className="mt-4 bg-gray-300 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover:cursor-pointer px-4 py-2 rounded-lg transition-colors"
+        >
+        {option.text}
+        </button>
+    ))
 
     return (
         <main className="flex flex-col items-center w-full">
@@ -99,7 +117,7 @@ export default function Game() {
                         </svg>
                         <div className="flex flex-col flex-nowrap items-center">
                             <img className="size-8 rounded-full" alt="icon" src="./assets/pfp.jpg" />
-                            <span className="text-sm text-black dark:text-white">Mike</span>
+                            <span className="text-sm text-black dark:text-white">Contact</span>
                         </div>
                         <svg className="size-9 mt-3" width="80" height="120" viewBox="0 0 80 120" fill="none">
                             <path d="M72.9,14.4L56,25.3V22c0-4.4-3.6-8-8-8H8c-4.4,0-8,3.6-8,8v32c0,4.4,3.6,8,8,8h40c4.4,0,8-3.6,8-8v-3.3   l16.9,10.9c1.9,1,3.1-0.7,3.1-1.7V16C76,15,74.9,13.2,72.9,14.4z M52,54c0,2.2-1.8,4-4,4H8c-2.2,0-4-1.8-4-4V22c0-2.2,1.8-4,4-4h40   c2.2,0,4,1.8,4,4V54z M72,56.3L56,46V30l16-10.3V56.3z" stroke="#438cfc" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
@@ -135,32 +153,37 @@ export default function Game() {
             </div>
             <div className="w-80 lg:w-140 my-10 lg:my-0 h-auto text-center flex flex-col gap-y-8">
                 <div className="w-full h-full ring-8 ring-black rounded-xl flex flex-col text-center p-8">
-                    <h2 className="text-2xl font-semibold">
-                        Choose the best response to the user's message.
-                    </h2>
+                    
                     {showOptions ? (
-                        scenarios[currentStep].options.map((option, idx) => (
-                            <button
-                                key={idx}
-                                onClick={() => handleAnswer(option)}
-                                className="mt-4 bg-gray-300 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover:cursor-pointer px-4 py-2 rounded-lg transition-colors"
-                            >
-                            {option.text}
-                            </button>
-                        ))
-                    ) : currentStep >= scenarios.length - 1 && !showOptions ? (
-                        <div className="mt-4 text-xl font-semibold">
-                            Final Score: {score} / 10
-                            <p className="mt-2">
-                            {score <= 5
-                                ? "You might want to review digital citizenship."
-                                : score <= 7
+                        <>
+                            <h2 className="text-2xl font-semibold">Choose the best answer to the user's message.</h2>
+                            {scenarioElements}
+                        </>
+                    ) : showFeedback ? (
+                        <div>
+                            <span className="text-2xl font-semibold">Your response: {currentScore} points</span>
+                            <p>
+                            {currentScore == 2
+                                ? "Great choice! You scored well!"
+                                : currentScore == 1
+                                ? "Could've been better, but it's a start."
+                                : "That wasn't the best choice."
+                            }
+                            </p>
+                        </div>
+                    ) : currentStep >= scenarios.length - 1 && !showOptions && !showFeedback && currentMessageIndex === scenarios[scenarios.length - 1].messages.length - 1 ? (
+                        <div>
+                            <span className="text-2xl font-semibold">Final Score: {score} / 10</span>
+                            <p>
+                            {score < 6
+                                ? "You might want to review your digital citizenship."
+                                : score < 8
                                 ? "You're on the right track!"
                                 : "Excellent work! You're a great digital citizen!"}
                             </p>
                         </div>
                     ) : (
-                        <p className="text-lg mt-4">Wait for the message to finish.</p>
+                        <p className="text-2xl font-semibold">Wait for the message to finish.</p>
                     )}
                 </div>
             </div>

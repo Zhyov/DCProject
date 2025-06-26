@@ -20,7 +20,7 @@ export default function Info() {
                 <h2 className="text-4xl font-bold">
                     Key Areas of Digital Citizenship
                 </h2>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="w-full xl:w-[48%] grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Card
                         title="Digital Literacy"
                         content="Understanding how technology works and how to find reliable information online."
