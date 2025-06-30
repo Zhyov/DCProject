@@ -50,13 +50,13 @@ export default [
     },
     {
         messages: [
-            "Hey, I saw this Instagram post about some girl with issues, bout to send her an offensive message.",
+            "Hey, I saw this Instagram post about some girl with issues, 'bout to send her an offensive message.",
             "What do you think?"
         ],
         options: [
             { text: "Okay, but don't make it too offensive.", score: 1 },
             { text: "Hell yeah, that would be so funny!", score: 0 },
-            { text: "That will get you on trouble dude, don't send her that.", score: 2 },
+            { text: "No, dude! That's wrong, you shouldn't discriminate people.", score: 2 },
         ]
     },
 ]
