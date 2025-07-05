@@ -15,6 +15,11 @@ export default function Navbar() {
                         <span className="font-[600] text-neutral-400 dark:text-neutral-950 invert-50">Take the test</span>
                     </div>
                 </Link>
+                <Link to="/DCProject/about">
+                    <div className="p-2 rounded-md items-center transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:*:invert">
+                        <span className="font-[600] text-neutral-400 dark:text-neutral-950 invert-50">About our project</span>
+                    </div>
+                </Link>
             </div>
             <div className="flex flex-nowrap flex-row items-center gap-x-4">
                 <button className="p-2 rounded-md items-center transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:cursor-pointer"
